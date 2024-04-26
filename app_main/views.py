@@ -125,14 +125,21 @@ def student_create(request, teacher_id):
 
             return redirect('teacher_students', id=teacher_id)
 
-    # ====== How to check some hobby in students hobbies list ? ======
-    # hobby = ...
-    # filtered_students = []
+def filter_by_hobby(request, hobby_id):
+    hobby = Hobby.objects.get(id=hobby_id)
+    filtered_students = []
 
-    # for student in Student.objects.all():
-    #     if hobby in student.hobbies.all():
-    #         filtered_students.append(student)
-    # ================================================================
+    for student in Student.objects.all():
+        if hobby in student.hobbies.all():
+            filtered_students.append(student)
+
+    context = {
+        'hobby': hobby,
+        'filtered_students': filtered_students
+    }
+
+    return render(request, 'app_main/filtered_students.html', context)
+
     
 
     form = StudentForm()
